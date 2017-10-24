@@ -1,6 +1,5 @@
-var express = require('express');
+const express = require('express');
 const Nightmare = require('nightmare');
-const nightmare = Nightmare({ show: false });
 
 var app = express();
 
@@ -11,6 +10,7 @@ app.get('/primera-etapa', async (req, res) => {
     '#one-column-emphasis > tbody > tr:nth-child(14) > td > strong';
 
   try {
+    const nightmare = Nightmare({ show: true });
     const estado = await nightmare
       .goto(url)
       .wait('#cuadro')
@@ -49,7 +49,7 @@ app.get('/primera-etapa', async (req, res) => {
         ).innerHTML
     );
 
-    nightmare.end();
+    await nightmare.end();
     res.json({ estado, entidadContratante, objetoProceso, presupuesto, plazo });
   } catch (error) {
     res.json({ error });
